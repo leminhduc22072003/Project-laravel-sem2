@@ -40,6 +40,52 @@
     <!-- Customized Bootstrap Stylesheet -->
     <link rel="stylesheet" href="{{asset('client/css/mainmaybay.css')}}" />
     <link href="{{asset('client/css/about.css')}}" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Ẩn form 1 chiều khi trang được tải
+            $("#form1").show();
+            $("#form2").hide();
+
+            // focus radi khứ hồi
+            const radio = document.getElementById("round-trip");
+            radio.style.backgroundColor = "aqua";
+            radio.focus();
+
+            // Hiển thị form được chọn khi tùy chọn được chọn
+            $("input[type='radio']").click(function() {
+                var option = $(this).val();
+                const box1 = document.getElementById("round-trip");
+                const box2 = document.getElementById("one-way");
+                if (option == "form1") {
+                    $("#form1").show();
+                    $("#form2").hide();
+                    $("#return").hide();
+                    box1.style.backgroundColor = "aqua";
+                    box2.style.backgroundColor = "transparent";
+                } else if (option == "form2") {
+                    $("#form2").show();
+                    $("#form1").hide();
+                    box2.style.backgroundColor = "aqua";
+                    box1.style.backgroundColor = "transparent";
+                }
+            });
+        });
+    </script>
+    <style>
+        .type_ticket{
+            display: inline-block;
+        }
+        .type_ticket input[type="radio"]{
+            appearance: none;
+            -webkit-appearance: none;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .type_ticket label{
+            padding: 5px 10px;
+        }
+    </style>
 </head>
 
 <body>

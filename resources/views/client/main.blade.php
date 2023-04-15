@@ -98,96 +98,193 @@
                     <div class="ftl-base-header ftl-search-header">
                         <span>TÌM KIẾM CHUYẾN BAY</span>
                     </div>
-                    <form method="get" action="{{route("client.chuyen-bay")}}">
-                        <ul class="tab-services clearfix">
-                            <li class="tab-flight active">
-                                <span>Vé máy bay</span>
-                            </li>
-                        </ul>
-{{--                        <ul class="ftlSearch-option">--}}
-{{--                            <li name="ftlSearch-trips">--}}
-{{--                                <input class="checkmark" type="radio" id="vehicle1" name="vehicle1" value="Bike">--}}
-{{--                                <span>Một chiều</span>--}}
-{{--                            </li>--}}
-{{--                            <li name="ftlSearch-trips">--}}
-{{--                                <input class="checkmark" type="radio" id="vehicle1" name="vehicle1" value="Bike">--}}
-{{--                                <span> Khứ hồi</span>--}}
-{{--                            </li>--}}
-{{--                            <li>--}}
-{{--                            </li>--}}
-{{--                        </ul>--}}
-                        <div class="ftlSearch-main">
-                            <div class="ftlSearch-flight">
-                                <ul class="ftlSearch-list">
-                                    <li>
-                                        <p>Điểm đi</p>
-                                        <div class="ftlSearch-group">
-                                            <select name="diemdi" class="form-control" required>
-                                                @foreach($thanhpho as $key => $item)
-                                                    <option value="{{$item->name}}"> {{$item->name}} ({{$item->mathanhpho}})</option>
-                                                @endforeach
-                                            </select>
+                    <div class="form-search-ve">
+                        <form class="type_ticket">
+                            <label id="round-trip"><input type="radio" id="round-trip" name="form-option" value="form1"> Khứ hồi</label>
+                            <label id="one-way"><input type="radio" id="one-way" name="form-option" value="form2"> Một chiều</label>
+                        </form>
+                        <form id="form1" method="get" action="{{route("client.chuyen-bay")}}">
+                            <ul class="tab-services clearfix">
+                                <li class="tab-flight active">
+                                    <span>Vé máy bay</span>
+                                </li>
+                            </ul>
+                            {{--                        <ul class="ftlSearch-option">--}}
+                            {{--                            <li name="ftlSearch-trips">--}}
+                            {{--                                <input class="checkmark" type="radio" id="vehicle1" name="vehicle1" value="Bike">--}}
+                            {{--                                <span>Một chiều</span>--}}
+                            {{--                            </li>--}}
+                            {{--                            <li name="ftlSearch-trips">--}}
+                            {{--                                <input class="checkmark" type="radio" id="vehicle1" name="vehicle1" value="Bike">--}}
+                            {{--                                <span> Khứ hồi</span>--}}
+                            {{--                            </li>--}}
+                            {{--                            <li>--}}
+                            {{--                            </li>--}}
+                            {{--                        </ul>--}}
+                            <div class="ftlSearch-main">
+                                <div class="ftlSearch-flight">
+                                    <ul class="ftlSearch-list">
+                                        <li>
+                                            <p>Điểm đi</p>
+                                            <div class="ftlSearch-group">
+                                                <select name="diemdi" class="form-control" required>
+                                                    @foreach($thanhpho as $key => $item)
+                                                        <option value="{{$item->name}}"> {{$item->name}} ({{$item->mathanhpho}})</option>
+                                                    @endforeach
+                                                </select>
+                                                <i class="fa fa-angle-down"></i>
+                                                </span>
+                                            </div>
+                                        </li>
+                                        <li class="button convert"></li>
+                                        <li>
+                                            <p>Điểm đến</p>
+                                            <div class="ftlSearch-group">
+                                                <select name="diemden" class="form-control" required>
+                                                    @foreach($thanhpho as $key => $item)
+                                                        <option value="{{$item->name}}"> {{$item->name}} ({{$item->mathanhpho}})</option>
+                                                    @endforeach
+                                                </select>
+                                                <i class="fa fa-angle-down"></i>
+                                                </span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p>Ngày đi</p>
+                                            <div class="ftlSearch-group">
+                                                <input
+                                                    type="date"
+                                                    id="ftl-date-departure"
+                                                    class="ftl-search-req"
+                                                    placeholder="Chọn ngày đi"
+                                                    name="ngaydi"
+                                                    required
+                                                />
+                                                <span class="ftl-input-icon">
                           <i class="fa fa-angle-down"></i>
                         </span>
-                                        </div>
-                                    </li>
-                                    <li class="button convert"></li>
-                                    <li>
-                                        <p>Điểm đến</p>
-                                        <div class="ftlSearch-group">
-                                            <select name="diemden" class="form-control" required>
-                                                @foreach($thanhpho as $key => $item)
-                                                    <option value="{{$item->name}}"> {{$item->name}} ({{$item->mathanhpho}})</option>
-                                                @endforeach
-                                            </select>
-                          <i class="fa fa-angle-down"></i>
-                        </span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <p>Ngày đi</p>
-                                        <div class="ftlSearch-group">
-                                            <input
-                                                type="date"
-                                                id="ftl-date-departure"
-                                                class="ftl-search-req"
-                                                placeholder="Chọn ngày đi"
-                                                name="ngaydi"
-                                                required
-                                            />
-                                            <span class="ftl-input-icon">
-                          <i class="fa fa-angle-down"></i>
-                        </span>
-                                        </div>
-                                    </li>
-                                    <li class="button"></li>
-                                    <li>
-                                        <p>Ngày về</p>
-                                        <div class="ftlSearch-group">
-                                            <input
-                                                type="date"
-                                                id="ftl-date-return"
-                                                class="ftl-search-req"
-                                                placeholder="Chọn ngày về"
-                                                name="ngayve"
-                                            />
-                                            <span class="ftl-input-icon"
-                                            ><i class="fa fa-angle-down"></i
-                                                ></span>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="ftlSearch-wraper">
-                                <div class="ftlSearch-posion">
-                                    <button type="submit" class="ftlSearch-button">
-                                        <i class="fa fa-search"></i> TÌM KIẾM CHUYẾN BAY
-                                    </button>
+                                            </div>
+                                        </li>
+                                        <li class="button"></li>
+                                        <li>
+                                            <p>Ngày về</p>
+                                            <div class="ftlSearch-group">
+                                                <input
+                                                    type="date"
+                                                    id="ftl-date-return"
+                                                    class="ftl-search-req"
+                                                    placeholder="Chọn ngày về"
+                                                    name="ngayve"
+                                                />
+                                                <span class="ftl-input-icon"
+                                                ><i class="fa fa-angle-down"></i
+                                                    ></span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="ftlSearch-wraper">
+                                    <div class="ftlSearch-posion">
+                                        <button type="submit" class="ftlSearch-button">
+                                            <i class="fa fa-search"></i> TÌM KIẾM CHUYẾN BAY
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="ftl-clear"></div>
-                    </form>
+                            <div class="ftl-clear"></div>
+                        </form>
+                        <form id="form2" method="get" action="{{route("client.chuyen-bay")}}">
+                            <ul class="tab-services clearfix">
+                                <li class="tab-flight active">
+                                    <span>Vé máy bay</span>
+                                </li>
+                            </ul>
+                            {{--                        <ul class="ftlSearch-option">--}}
+                            {{--                            <li name="ftlSearch-trips">--}}
+                            {{--                                <input class="checkmark" type="radio" id="vehicle1" name="vehicle1" value="Bike">--}}
+                            {{--                                <span>Một chiều</span>--}}
+                            {{--                            </li>--}}
+                            {{--                            <li name="ftlSearch-trips">--}}
+                            {{--                                <input class="checkmark" type="radio" id="vehicle1" name="vehicle1" value="Bike">--}}
+                            {{--                                <span> Khứ hồi</span>--}}
+                            {{--                            </li>--}}
+                            {{--                            <li>--}}
+                            {{--                            </li>--}}
+                            {{--                        </ul>--}}
+                            <div class="ftlSearch-main">
+                                <div class="ftlSearch-flight">
+                                    <ul class="ftlSearch-list">
+                                        <li>
+                                            <p>Điểm đi</p>
+                                            <div class="ftlSearch-group">
+                                                <select name="diemdi" class="form-control" required>
+                                                    @foreach($thanhpho as $key => $item)
+                                                        <option value="{{$item->name}}"> {{$item->name}} ({{$item->mathanhpho}})</option>
+                                                    @endforeach
+                                                </select>
+                                                <i class="fa fa-angle-down"></i>
+                                                </span>
+                                            </div>
+                                        </li>
+                                        <li class="button convert"></li>
+                                        <li>
+                                            <p>Điểm đến</p>
+                                            <div class="ftlSearch-group">
+                                                <select name="diemden" class="form-control" required>
+                                                    @foreach($thanhpho as $key => $item)
+                                                        <option value="{{$item->name}}"> {{$item->name}} ({{$item->mathanhpho}})</option>
+                                                    @endforeach
+                                                </select>
+                                                <i class="fa fa-angle-down"></i>
+                                                </span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p>Ngày đi</p>
+                                            <div class="ftlSearch-group">
+                                                <input
+                                                    type="date"
+                                                    id="ftl-date-departure"
+                                                    class="ftl-search-req"
+                                                    placeholder="Chọn ngày đi"
+                                                    name="ngaydi"
+                                                    required
+                                                />
+                                                <span class="ftl-input-icon">
+                          <i class="fa fa-angle-down"></i>
+                        </span>
+                                            </div>
+                                        </li>
+                                        <li class="button"></li>
+                                        <li id="return">
+                                            <p>Ngày về</p>
+                                            <div class="ftlSearch-group">
+                                                <input
+                                                    type="date"
+                                                    id="ftl-date-return"
+                                                    class="ftl-search-req"
+                                                    placeholder="Chọn ngày về"
+                                                    name="ngayve"
+                                                />
+                                                <span class="ftl-input-icon"
+                                                ><i class="fa fa-angle-down"></i
+                                                    ></span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="ftlSearch-wraper">
+                                    <div class="ftlSearch-posion">
+                                        <button type="submit" class="ftlSearch-button">
+                                            <i class="fa fa-search"></i> TÌM KIẾM CHUYẾN BAY
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ftl-clear"></div>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </div>
