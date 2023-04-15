@@ -20,17 +20,24 @@ use Illuminate\Support\Facades\Validator;
 class BookingController extends Controller
 {
     public function getChuyenBay(Request $request) {
+
+        $request->validate([
+            "ngaydi" => "required|date|after_or_equal:today",
+            "ngayve" => "required|date|after_or_equal:ngaydi"
+        ],[
+            "after_or_equal"=>"Bạn không được chọn ngày ở quá khứ"
+        ]);
         $thanhphodi = ThanhPho::where('name', 'LIKE', '%'.$request->diemdi.'%')->first();
         $thanhphoden = ThanhPho::where('name', 'LIKE', '%'.$request->diemden.'%')->first();
 
         $chuyenbay = Chuyenbay::with('sanbay1.thanhpho', 'sanbay2.thanhpho', 'maybay.hangbay')
             ->where(function ($query) use ($request) {
-            $query->whereHas('sanbay1', function ($q) use ($request){
-                $q->where('tensanbay', 'LIKE', '%'.$request->diemdi.'%');
-            });
-            $query->orWhereHas('sanbay1.thanhpho', function ($q) use ($request){
-                $q->where('name', 'LIKE', '%'.$request->diemdi.'%');
-            });
+                $query->whereHas('sanbay1', function ($q) use ($request){
+                    $q->where('tensanbay', 'LIKE', '%'.$request->diemdi.'%');
+                });
+                $query->orWhereHas('sanbay1.thanhpho', function ($q) use ($request){
+                    $q->where('name', 'LIKE', '%'.$request->diemdi.'%');
+                });
             })->where(function ($query) use ($request) {
                 $query->whereHas('sanbay2', function ($q) use ($request){
                     $q->where('tensanbay', 'LIKE', '%'.$request->diemden.'%');

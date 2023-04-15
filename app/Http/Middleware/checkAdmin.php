@@ -16,11 +16,11 @@ class checkAdmin
      */
     public function handle($request, Closure $next)
     {
-        if(!$request->session()->exists('auth')) {
-            if($request->session()->exists('role') != GROUP_ADMIN) {
-                return redirect('auth/admin/login');
+        if (!$request->session()->exists('auth')) {
+            if ($request->session()->get('role') === GROUP_ADMIN) {
+                return $next($request);
             }
         }
-        return $next($request);
+        return redirect('auth/admin/login');
     }
 }

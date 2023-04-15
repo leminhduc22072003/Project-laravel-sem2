@@ -16,11 +16,11 @@ class checkUser
      */
     public function handle($request, Closure $next)
     {
-        if(!$request->session()->exists('auth')) {
-            if($request->session()->exists('role') != GROUP_USER) {
-                return redirect('auth/user/login');
+        if($request->session()->exists('user')) {
+            if($request->session()->get('role') === GROUP_USER) {
+                return $next($request);
             }
         }
-        return $next($request);
+        return redirect('auth/user/login');
     }
 }
