@@ -150,5 +150,4 @@ Route::group(['namespace' => 'Client', 'prefix' => '/'], function () {
     Route::get("/detail-booking",[\App\Http\Controllers\Client\BookingController::class,"detailBooking"])->name('client.booking.detail');
     Route::get("/payment",[\App\Http\Controllers\Client\BookingController::class,"payment"])->name('client.payment');
     Route::get("/finish",[\App\Http\Controllers\Client\BookingController::class,"finish"])->name('client.finish');
-
 });

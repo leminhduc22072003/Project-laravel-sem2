@@ -55,10 +55,17 @@ class BookingController extends Controller
         $chuyenbay = Chuyenbay::with('sanbay1.thanhpho', 'sanbay2.thanhpho', 'maybay.hangbay')
             ->where('machuyenbay', 'LIKE', '%'.$request->get('chuyenbay').'%')
             ->first();
+        $request->session()->put('chuyenbay', json_encode($chuyenbay));
         return view('client.prebooking')->with(compact('chuyenbay'));
     }
 
     public function getBooking(Request $request) {
+        if (!$request->session()->exists('chuyenbay')) {
+            $thanhpho = ThanhPho::get();
+            return redirect()->route('client.main', [
+                'thanhpho' => $thanhpho
+            ]);
+        }
         $chuyenbay = Chuyenbay::with('sanbay1.thanhpho', 'sanbay2.thanhpho', 'maybay.hangbay')
             ->where('machuyenbay', 'LIKE', '%'.$request->get('chuyenbay').'%')
             ->first();
@@ -66,6 +73,12 @@ class BookingController extends Controller
     }
 
     public function postBooking(Request $request) {
+        if (!$request->session()->exists('chuyenbay')) {
+            $thanhpho = ThanhPho::get();
+            return redirect()->route('client.main', [
+                'thanhpho' => $thanhpho
+            ]);
+        }
         $request ->validate([
             'first_name1' => 'required',
             'last_name1' => 'required',
@@ -114,17 +127,20 @@ class BookingController extends Controller
             ]);
         }
 
-        $chuyenbay = Chuyenbay::with('sanbay1.thanhpho', 'sanbay2.thanhpho', 'maybay.hangbay')
-            ->where('machuyenbay', 'LIKE', '%'.$request->get('chuyenbay').'%')
-            ->first();
+        $chuyenbay = json_decode($request->session()->get('chuyenbay'));
 
         $request->session()->put('user', json_encode(!empty($user) ? $user : $confirm));
-        $request->session()->put('chuyenbay', json_encode($chuyenbay));
 
         return view("client.bookingdetail")->with(compact('customer', 'confirm', 'chuyenbay'));
     }
 
     public function payment(Request $request) {
+        if (!$request->session()->exists('chuyenbay')) {
+            $thanhpho = ThanhPho::get();
+            return redirect()->route('client.main', [
+                'thanhpho' => $thanhpho
+            ]);
+        }
         $user = json_decode($request->session()->get('user'));
         $chuyenbay = json_decode($request->session()->get('chuyenbay'));
         $bill = Hoadon::create(
@@ -161,6 +177,18 @@ class BookingController extends Controller
     }
 
     public function finish(Request $request) {
-        return view('client.payment');
+        if (!$request->session()->exists('chuyenbay')) {
+            $thanhpho = ThanhPho::get();
+            return redirect()->route('client.main', [
+                'thanhpho' => $thanhpho
+            ]);
+        }
+        $user = json_decode($request->session()->get('user'));
+        $ve = Ve::with('user', 'chuyenbay.maybay', 'chuyenbay.sanbay1', 'chuyenbay.sanbay2', 'hoadon.chitiethoadon')
+            ->where('user_id', '=', $user->id)
+            ->get();
+        $request->session()->forget('user');
+        $request->session()->forget('chuyenbay');
+        return view('client.finish')->with(compact('ve'));
     }
 }

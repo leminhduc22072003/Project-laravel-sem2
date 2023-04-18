@@ -127,7 +127,7 @@
                                                     <option value="{{$item->name}}"> {{$item->name}} ({{$item->mathanhpho}})</option>
                                                 @endforeach
                                             </select>
-                                            <i class="fa fa-angle-down"></i>
+
                                             </span>
                                         </div>
                                     </li>
@@ -140,7 +140,7 @@
                                                     <option value="{{$item->name}}"> {{$item->name}} ({{$item->mathanhpho}})</option>
                                                 @endforeach
                                             </select>
-                                            <i class="fa fa-angle-down"></i>
+
                                             </span>
                                         </div>
                                     </li>
